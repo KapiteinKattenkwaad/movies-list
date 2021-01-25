@@ -8,19 +8,26 @@ export default new Vuex.Store({
     state: {
         theme: 'theme-dark',
         movies: [],
+        page: 1,
     },
     mutations: {
         SET_THEME(state, theme) {
             state.theme = theme;
 
         },
+        SET_NEXT_PAGE: (state) => {
+          state.page++
+        },
+        SET_PREVIOUS_PAGE: (state) => {
+          state.page--
+        },
         SET_MOVIES: (state, movies) => (state.movies = movies),
     },
     actions: {
 
-        fetchMovies({commit}) {
+        fetchMovies({state, commit}) {
             axios
-                .get('https://api.themoviedb.org/3/movie/popular?api_key=e08cb297a367a56d0964018be877415c&language=en-US&page=2')
+                .get(`https://api.themoviedb.org/3/movie/popular?api_key=e08cb297a367a56d0964018be877415c&language=en-US&page=${state.page}`)
                 .then(response => {
                     console.log('from store', response.data.results)
                     commit('SET_MOVIES', response.data.results)
@@ -44,6 +51,8 @@ export default new Vuex.Store({
             return state.theme;
         },
         getAllmovies: (state) => state.movies,
+
+
 
 
     },

@@ -1,18 +1,15 @@
 <template>
     <div class="all-countries max-w-5xl px-4 my-12 mx-auto"
     >
-        genres: {{ this.$store.getters.getGenres }}
-        <div v-if="loading">
+        <button v-if="this.$store.state.page >= 1" @click="getNextPage">
+            next page
+        </button>
+        <button v-if="this.$store.state.page > 1" @click="getPreviousPage">
+            previous page
+        </button>
+        {{ pages }}
 
-            <div class="globe-wrapper flex justify-center flex-col text-center">
-                <img class="globe"
-                     src="./../assets/icons/worldwide.svg" alt="globe">
-                <h5>
-                    Loading
-                </h5>
-            </div>
-        </div>
-        <div v-else class="countries-list flex flex-wrap justify-center md:justify-between">
+        <div class="countries-list flex flex-wrap justify-center md:justify-between">
             <ul>
                 <li v-for="genre in genres" :key="genre.index">
                     {{ genre.id }} {{ genre.name }}
@@ -27,16 +24,16 @@
                 <!--     {{ movie.overview }}-->
                 genre:
                 {{ movie.genre }}
-            <span v-for="genre in movie.genre_ids" :key="genre.index">
+                <span v-for="genre in movie.genre_ids" :key="genre.index">
                 <span v-if="genre === 14">
                     Action
                 </span>
                 {{ genre }}
             </span>
-             <router-link :to="{ name: 'DetailMovie', params: { name: movie.id }}">
+                <router-link :to="{ name: 'DetailMovie', params: { name: movie.id }}">
                     click
 
-             </router-link>
+                </router-link>
             </p>
 
         </div>
@@ -94,19 +91,13 @@
     import axios from 'axios'
 
 
-
     export default {
         name: 'AllMovies',
         components: {},
         props: {},
         data() {
             return {
-                movies: null,
-                region: null,
-                nameCountry: null,
-                isHidden: false,
                 theme: 'theme-light',
-
                 genres: null
             }
         },
@@ -121,6 +112,9 @@
             moviezz() {
                 return this.$store.state.movies;
             },
+            pages() {
+                return this.$store.state.page;
+            }
         },
 
         mounted() {
@@ -140,7 +134,14 @@
 
         },
         methods: {
-
+            getNextPage() {
+                this.$store.commit("SET_NEXT_PAGE");
+                this.$store.dispatch("fetchMovies");
+            },
+            getPreviousPage() {
+                this.$store.commit("SET_PREVIOUS_PAGE");
+                this.$store.dispatch("fetchMovies");
+            },
         },
     }
 </script>
