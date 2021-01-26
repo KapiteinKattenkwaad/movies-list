@@ -1,13 +1,11 @@
 <template>
     <div class="all-countries max-w-5xl px-4 my-12 mx-auto"
     >
-        <button v-if="this.$store.state.page >= 1" @click="getNextPage">
-            next page
+
+
+        <button class="button button-tv">
+            TV Shows
         </button>
-        <button v-if="this.$store.state.page > 1" @click="getPreviousPage">
-            previous page
-        </button>
-        {{ pages }}
 
         <div class="region mt-4  md:mt-0 relative">
 
@@ -25,90 +23,24 @@
 
 
         <div class="countries-list flex flex-wrap justify-center md:justify-between">
-            <p class="movie__card" v-for="movie in moviezz" :key="movie.id">
-                <router-link :to="{ name: 'DetailMovie', params: { name: movie.id }}">
-                    <img class="movie__img" width="220" height="300"
-                         :src="`https://image.tmdb.org/t/p/w500/${movie.poster_path}`"
-                         :alt="movie.title">
-                    <div class="movie__average">
-                        {{ movie.vote_average }}
-                    </div>
-                    <div class="movie__text-wrapper">
-                        <h3 class="movie__title">
-                            {{ movie.title }}
-                        </h3>
-                        <div class="movie__genre">
-                        <span v-for="genre in movie.genre_ids" :key="genre.index">
-                            <span v-if="genre === 14">
-                                Fantasy
-                            </span>
-                            <span v-if="genre === 28">
-                                Action
-                            </span>
-                            <span v-if="genre === 12">
-                                Adventure
-                            </span>
-                            <span v-if="genre === 14">
-                                Action
-                            </span>
-                            <span v-if="genre === 16">
-                                Animation
-                            </span>
-                            <span v-if="genre === 35">
-                                Comedy
-                            </span>
-                            <span v-if="genre === 80">
-                                Crime
-                            </span>
-                            <span v-if="genre === 99">
-                                Documentary
-                            </span>
-                            <span v-if="genre === 18">
-                                Drama
-                            </span>
-                            <span v-if="genre === 10751">
-                                Family
-                            </span>
-                            <span v-if="genre === 36">
-                                History
-                            </span>
-                            <span v-if="genre === 27">
-                                Horror
-                            </span>
-                            <span v-if="genre === 10402">
-                                Music
-                            </span>
-                            <span v-if="genre === 9648">
-                                Mystery
-                            </span>
-                            <span v-if="genre === 10749">
-                                Romance
-                            </span>
-                            <span v-if="genre === 878">
-                                Science Fiction
-                            </span>
-                            <span v-if="genre === 10770">
-                                TV Movie
-                            </span>
-                            <span v-if="genre === 53">
-                               Thriller
-                            </span>
-                            <span v-if="genre === 10752">
-                                War
-                            </span>
-                            <span v-if="genre === 37">
-                               Western
-                            </span>
-                         </span>
-                        </div>
-
-                    </div>
-                </router-link>
+            <p class="movie__card" v-for="(movie, index) in moviezz" :key="index">
+                <MovieCard
+                        :movie=movie >
+                </MovieCard>
             </p>
 
+        </div>
 
-            <!--     {{ movie.overview }}-->
-
+        <div class="pagination">
+            <button v-if="this.$store.state.page > 1" @click="getPreviousPage">
+                previous
+            </button>
+            <p>
+                {{ pages }}
+            </p>
+            <button v-if="this.$store.state.page >= 1" @click="getNextPage">
+                next
+            </button>
 
         </div>
 
@@ -116,6 +48,32 @@
 </template>
 
 <style lang="scss">
+
+    .pagination {
+        display: flex;
+        max-width: 200px;
+        margin: 2rem auto;
+        justify-content: center;
+        align-items: center;
+
+        button {
+            margin: 0 2rem;
+            color: #444444;
+            border-radius: 5px;
+            border: .2px solid #444444;
+            padding: 6px;
+            background: white;
+            text-transform: uppercase;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        p {
+            text-transform: uppercase;
+            font-size: 11px;
+            font-weight: 600;
+        }
+    }
 
     .movie {
         &__card {
@@ -127,11 +85,12 @@
             margin: 3rem 1rem 1rem 1rem;
             position: relative;
             transition: all .25s ease-in;
+
             &:hover {
                 box-shadow: none;
-                transform: translateY(-3px) rotateY(-30deg);
+                transform: translateY(-3px) ;
                 transform-style: preserve-3d;
-                border: .1px solid rgba(0,0,0, .1);
+                border: .1px solid rgba(0, 0, 0, .1);
                 perspective: 300px;
             }
         }
@@ -139,6 +98,7 @@
         &__img {
             border-radius: 5px;
         }
+
         &__text-wrapper {
             padding: 6px 8px 16px 8px;
         }
@@ -157,6 +117,12 @@
             font-size: 12px;
             box-shadow: 5px 5px 10px, rgba(0, 10, 0, .15);
             border-top: white;
+        }
+
+        &__heart {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
         }
 
         &__title {
@@ -224,17 +190,19 @@
 
 <script>
     import axios from 'axios'
-
+    import MovieCard from "./MovieCard";
 
     export default {
         name: 'AllMovies',
-        components: {},
+        components: {MovieCard},
         props: {},
         data() {
             return {
                 theme: 'theme-light',
                 genres: null,
                 sorting: null,
+                likedMovie: true,
+                clickedItem: '',
             }
         },
         watch: {
@@ -294,7 +262,7 @@
                 console.log(this.sorting)
                 this.$store.commit("SET_SORTING", this.sorting);
                 this.$store.dispatch("fetchMovies");
-            }
+            },
         },
     }
 </script>

@@ -9,7 +9,8 @@ export default new Vuex.Store({
         theme: 'theme-dark',
         movies: [],
         page: 1,
-        sortBy: 'vote_average.desc',
+        likedMovie: false,
+        sortBy: 'popularity.desc',
         sortedBy:
             {
                 'popularity.desc': 'Popularity',
@@ -22,13 +23,16 @@ export default new Vuex.Store({
             state.theme = theme;
         },
         SET_NEXT_PAGE: (state) => {
-          state.page++
+            state.page++
         },
         SET_PREVIOUS_PAGE: (state) => {
-          state.page--
+            state.page--
         },
         SET_SORTING: (state, sorted) => {
-          state.sortBy = sorted
+            state.sortBy = sorted
+        },
+        SET_LIKED_MOVIE: (state) => {
+            state.likedMovie = !state.likedMovie
         },
         SET_MOVIES: (state, movies) => (state.movies = movies),
     },
@@ -60,7 +64,6 @@ export default new Vuex.Store({
             return state.theme;
         },
         getAllmovies: (state) => state.movies,
-
 
 
         getAllActionMovies: (state) => {
