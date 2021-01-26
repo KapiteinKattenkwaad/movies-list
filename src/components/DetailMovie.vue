@@ -74,7 +74,6 @@
             getSingleCountry() {
                 axios.get(`https://api.themoviedb.org/3/movie/${this.$route.params.name}?api_key=e08cb297a367a56d0964018be877415c&language=en-US/`)
                     .then(response => {
-                        console.log('single', response.data)
                         this.singleMovie = response.data
                     }).catch(error => {
                     console.log(error)

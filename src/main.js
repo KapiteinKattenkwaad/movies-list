@@ -4,8 +4,11 @@ import router from './router'
 import store from './store'
 import './assets/styles/index.css'
 import { gsap } from "gsap";
+import {firestorePlugin} from "vuefire";
+import './firestore/firebase'
+import VueFire from 'vuefire'
 
-Vue.use(gsap)
+Vue.use(gsap, firestorePlugin, VueFire)
 
 
 Vue.config.productionTip = false

@@ -105,8 +105,6 @@
         methods: {
             handleFavoriteClick(index) {
                 this.clickedItem = index;
-                console.log(this.clickedItem)
-                console.log(this.likedMovie)
                 this.likedMovie = !this.likedMovie;
                 this.$store.commit("SET_LIKED_MOVIE", index);
             }
