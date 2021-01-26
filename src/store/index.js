@@ -9,11 +9,17 @@ export default new Vuex.Store({
         theme: 'theme-dark',
         movies: [],
         page: 1,
+        sortBy: 'vote_average.desc',
+        sortedBy:
+            {
+                'popularity.desc': 'Popularity',
+                'release_date.desc': 'Release date',
+                'vote_average.desc': 'Voters average'
+            }
     },
     mutations: {
         SET_THEME(state, theme) {
             state.theme = theme;
-
         },
         SET_NEXT_PAGE: (state) => {
           state.page++
@@ -21,13 +27,16 @@ export default new Vuex.Store({
         SET_PREVIOUS_PAGE: (state) => {
           state.page--
         },
+        SET_SORTING: (state, sorted) => {
+          state.sortBy = sorted
+        },
         SET_MOVIES: (state, movies) => (state.movies = movies),
     },
     actions: {
 
         fetchMovies({state, commit}) {
             axios
-                .get(`https://api.themoviedb.org/3/movie/popular?api_key=e08cb297a367a56d0964018be877415c&language=en-US&page=${state.page}`)
+                .get(`https://api.themoviedb.org/3/discover/movie?api_key=e08cb297a367a56d0964018be877415c&language=en-BE&sort_by=${state.sortBy}&include_adult=true&include_video=false&page=${state.page}`)
                 .then(response => {
                     console.log('from store', response.data.results)
                     commit('SET_MOVIES', response.data.results)
@@ -53,6 +62,13 @@ export default new Vuex.Store({
         getAllmovies: (state) => state.movies,
 
 
+
+        getAllActionMovies: (state) => {
+            state.movies.map((movie) => {
+
+                return movie
+            })
+        }
 
 
     },
