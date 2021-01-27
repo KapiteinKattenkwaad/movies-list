@@ -7,6 +7,13 @@
             TV Shows
         </button>
 
+        <router-link :to="{ name: 'FavoriteMovies'}">
+            <div class="button flex content-center shadow-lg rounded border-solid
+                            px-6 py-4 mt-8 flex mx-auto md:mx-0 w-24 ">
+                Favorites
+            </div>
+        </router-link>
+
         <div class="region mt-4  md:mt-0 relative">
 
             <select class="border select border-solid cursor-pointer relative"
