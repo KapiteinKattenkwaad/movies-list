@@ -21,12 +21,14 @@
             </select>
         </div>
 
-
         <div class="countries-list flex flex-wrap justify-center md:justify-between">
             <p class="movie__card" v-for="(movie, index) in moviezz" :key="index">
-                <MovieCard
-                        :movie=movie >
-                </MovieCard>
+
+                <transition name="fade">
+                    <MovieCard
+                            :movie=movie>
+                    </MovieCard>
+                </transition>
             </p>
 
         </div>
@@ -88,7 +90,7 @@
 
             &:hover {
                 box-shadow: none;
-                transform: translateY(-3px) ;
+                transform: translateY(-3px);
                 transform-style: preserve-3d;
                 border: .1px solid rgba(0, 0, 0, .1);
                 perspective: 300px;
@@ -192,6 +194,7 @@
     import axios from 'axios'
     import MovieCard from "./MovieCard";
 
+
     export default {
         name: 'AllMovies',
         components: {MovieCard},
@@ -203,6 +206,8 @@
                 sorting: null,
                 likedMovie: true,
                 clickedItem: '',
+                favoriteMovies: [],
+                newFavorite: '',
             }
         },
         watch: {
@@ -226,7 +231,6 @@
             axios
                 .get('https://api.themoviedb.org/3/genre/movie/list?api_key=e08cb297a367a56d0964018be877415c&language=en-US')
                 .then(response => {
-                    console.log('genre', response.data.genres)
                     this.genres = response.data.genres
                 })
                 .catch(function (error) {
@@ -239,7 +243,7 @@
             axios
                 .get('https://api.themoviedb.org/3/movie/615677/similar?api_key=e08cb297a367a56d0964018be877415c&language=en-US&page=1')
                 .then(response => {
-                    console.log('netflix', response.data)
+                    console.log('similar', response.data)
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -247,7 +251,6 @@
                 .finally(() => {
 
                 })
-
         },
         methods: {
             getNextPage() {
@@ -259,10 +262,10 @@
                 this.$store.dispatch("fetchMovies");
             },
             getSortedList() {
-                console.log(this.sorting)
                 this.$store.commit("SET_SORTING", this.sorting);
                 this.$store.dispatch("fetchMovies");
             },
+
         },
     }
 </script>
