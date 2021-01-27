@@ -13,6 +13,11 @@
                     {{ movie.title }}
                 </h3>
                 <div class="movie__genre">
+                    <span v-if="movie.genres">
+                        <span v-for="genre in movie.genres" :key="genre.index">
+                            {{ genre.name }}
+                        </span>
+                    </span>
                         <span v-for="genre in movie.genre_ids" :key="genre.index">
                             <span v-if="genre === 14">
                                 Fantasy
