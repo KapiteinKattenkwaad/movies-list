@@ -21,18 +21,9 @@
             </select>
         </div>
 
-        <div>
-            <label >name</label>
-            <input type="text" v-model="name">
-            <button @click="submitName">Add</button>
-        </div>
-
-
         <div class="countries-list flex flex-wrap justify-center md:justify-between">
             <p class="movie__card" v-for="(movie, index) in moviezz" :key="index">
-                <button @click="addNewFavroite">
-                    favorite
-                </button>
+
                 <transition name="fade">
                     <MovieCard
                             :movie=movie>
@@ -202,8 +193,6 @@
 <script>
     import axios from 'axios'
     import MovieCard from "./MovieCard";
-    import {db} from './../firestore/db'
-    import { namesRef } from "../firestore/firebase";
 
 
     export default {
@@ -219,8 +208,6 @@
                 clickedItem: '',
                 favoriteMovies: [],
                 newFavorite: '',
-                ToDos: [],
-                newItem: ""
             }
         },
         watch: {
@@ -264,7 +251,6 @@
                 .finally(() => {
 
                 })
-
         },
         methods: {
             getNextPage() {
@@ -279,24 +265,7 @@
                 this.$store.commit("SET_SORTING", this.sorting);
                 this.$store.dispatch("fetchMovies");
             },
-            async addItem() {
-                if (this.newItem) {
-                    await db.collection("ToDos").add({ name: this.newItem });
 
-                    this.newItem = "";
-                }
-            },
-            submitName() {
-                namesRef.push({name: this.name})
-            },
-            async addNewFavroite() {
-                if (this.newFavorite) {
-                    await db.collection('movies').add({name: this.newFavorite})
-                }
-            }
         },
-        firestore: {
-            ToDos: db.collection("ToDos")
-        }
     }
 </script>

@@ -1,6 +1,5 @@
 <template>
     <div class="detail-country">
-        <Navbar/>
         <div class="detail-country-wrapper max-w-5xl mx-auto px-1">
             <router-link :to="{ name: 'Home'}">
                 <div class="back-button flex content-center shadow-lg rounded border-solid
@@ -10,25 +9,13 @@
             </router-link>
             <div class="movie-detail flex items-center flex-col md:flex-row justify-between mt-16 text-center md:text-left ">
 
-                <img class="movie-detail__img" width="500" height="700"
-                     :src="`https://image.tmdb.org/t/p/w500/${singleMovie.poster_path}`"
-                     :alt="singleMovie.title">
-                <div class="movie-detail__text-wrapper">
-                    <h1 class="movie-detail__title">
-                        {{ singleMovie.title }}
-                    </h1>
-                    <h4 class="movie-detail__tagline">
-                        {{ singleMovie.tagline }}
-                    </h4>
-                    <p class="movie-detail__overview">
-                        {{ singleMovie.overview }}
-                    </p>
-                    <div class="movie-detail__genre" v-for="genre in singleMovie.genres" :key="genre.index">
-                        {{ genre.name }}
-                    </div>
-                    <p>
-                        {{ firebaseData }}
-                    </p>
+                <button @click="getFavorite">
+                    get favorites
+                </button>
+
+                <div v-for="fav in favoriteMovies" :key="fav.index">
+                    {{ fav.title }}
+                </div>
 
                     <p class="movie-detail__favorite"
                        @click="handleFavoriteClick">
@@ -46,13 +33,6 @@
                                  Add to favorites
                             </span>
                     </p>
-                    <a target="_blank"
-                       :href="`http://www.youtube.com/results?search_query=${singleMovie.title}+preview`">
-                        <button class="movie-detail__preview">
-                            Preview
-                        </button>
-                    </a>
-                </div>
 
             </div>
         </div>
@@ -61,14 +41,12 @@
 </template>
 
 <script>
-    import axios from 'axios'
-    import Navbar from "./NavBar";
+
     import {db} from './../firestore/firebase'
 
 
     export default {
-        name: 'DetailMovie',
-        components: {Navbar},
+        name: 'FavoriteMovies',
         props: {},
         data() {
             return {
@@ -78,18 +56,10 @@
                 state: 'loading',
                 errorMessage: null,
                 firebaseData: null,
+                favoriteMovies: null
             }
         },
         methods: {
-            getSingleMovie() {
-                axios.get(`https://api.themoviedb.org/3/movie/${this.$route.params.name}?api_key=e08cb297a367a56d0964018be877415c&language=en-US/`)
-                    .then(response => {
-                        console.log('single', response.data)
-                        this.singleMovie = response.data
-                    }).catch(error => {
-                    console.log(error)
-                })
-            },
             handleFavoriteClick() {
                 this.likedMovie = !this.likedMovie
                 if (this.likedMovie === true) {
@@ -111,9 +81,9 @@
             },
             async getFavorite() {
                 try {
-                    const docRef = db.doc(`favorites/${this.singleMovie.id}`);
-                    let data = (await docRef.get()).data();
-                    console.log('fb', data)
+                    let snapshot = await db.collection('favorites').get()
+                    console.log('ss', snapshot.docs.map(doc => doc.data()))
+                    this.favoriteMovies = snapshot.docs.map(doc => doc.data())
                 }
                 catch (error) {
                     this.errorMessage = JSON.stringify(error)
@@ -136,14 +106,11 @@
         },
         firestore() {
             return {
-                firebaseData: db.doc(`favorites/${this.singleMovie.id}`)
+                firebaseData: db.doc(`favorites/jeanneke`)
             }
         },
-        mounted() {
-            this.getSingleMovie()
-        },
         created: async function () {
-            const docRef = db.doc(`favorites/${this.singleMovie.id}`);
+            const docRef = db.doc(`favorites/jeanneke`);
 
             let data = (await docRef.get()).data();
 
@@ -151,7 +118,6 @@
                 data = { title: '' }
                 docRef.set(data)
             }
-
             this.formData = data;
             this.state = 'synced'
         },

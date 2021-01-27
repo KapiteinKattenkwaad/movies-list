@@ -1,7 +1,7 @@
-import { initializeApp } from 'firebase';
+import firebase from 'firebase/app';
 import 'firebase/firestore';
 
-const app = initializeApp({
+const firebaseApp = firebase.initializeApp({
     apiKey: "AIzaSyARDyMhhgI2IqGiisTRpuHW1eC70ZBFxZY",
     authDomain: "movies-list-db.firebaseapp.com",
     databaseURL: "https://movies-list-db-default-rtdb.europe-west1.firebasedatabase.app",
@@ -12,7 +12,6 @@ const app = initializeApp({
     measurementId: "G-LZMV2K7KMG"
 })
 
+const db =  firebaseApp.firestore()
 
-export const db = app.database()
-export const namesRef = db.ref('names')
-
+export { db }
