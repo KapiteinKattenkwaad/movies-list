@@ -149,7 +149,7 @@
                 } else if (this.$store.state.favouriteMovies[this.movie.id] === undefined) {
                     this.deleteFavorite()
                 }
-                
+
             }
         },
         firestore() {
