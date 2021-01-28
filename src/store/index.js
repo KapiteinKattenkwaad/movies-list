@@ -10,6 +10,7 @@ export default new Vuex.Store({
         movies: [],
         page: 1,
         likedMovie: false,
+        favouriteMovies: {},
         sortBy: 'popularity.desc',
         sortedBy:
             {
@@ -31,8 +32,13 @@ export default new Vuex.Store({
         SET_SORTING: (state, sorted) => {
             state.sortBy = sorted
         },
-        SET_LIKED_MOVIE: (state) => {
-            state.likedMovie = !state.likedMovie
+        CHANGE_FAVORITES: (state, singleMovie) => {
+
+            if (state.favouriteMovies[singleMovie.id]) {
+                delete state.favouriteMovies[singleMovie.id]
+            } else {
+                state.favouriteMovies[singleMovie.id] = singleMovie
+            }
         },
         SET_MOVIES: (state, movies) => (state.movies = movies),
     },
@@ -62,15 +68,26 @@ export default new Vuex.Store({
         getTheme: (state) => {
             return state.theme;
         },
+        getMovieId: (state, payload) => {
+            state.movies.filter((movie)=> {
+                return movie.id === payload
+            })
+        },
         getAllmovies: (state) => state.movies,
+
+        getFavorites: (state) => {
+            return state.movies;
+        },
+
 
 
         getAllActionMovies: (state) => {
             state.movies.map((movie) => {
-
-                return movie
+                movie.genre_ids.filter((genre) => {
+                    return genre === 14
+                })
             })
-        }
+        },
 
 
     },
