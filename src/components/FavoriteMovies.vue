@@ -7,6 +7,7 @@
                     Back
                 </div>
             </router-link>
+            state: {{ state }}
             <div class="countries-list flex flex-wrap justify-center md:justify-between">
                 <div class="movie__card" v-for="fav in favoriteMovies" :key="fav.index">
                     {{ fav.genre_ids }}
@@ -68,10 +69,9 @@
             },
             async getFavorite() {
                 try {
-                    let snapshot = await db.collection('favorites').get()
-                    console.log('ss', snapshot.docs.map(doc => doc.data()))
-                    this.favoriteMovies = snapshot.docs.map(doc => doc.data())
-                    console.log(this.favoriteMovies)
+                    let favorites = await db.collection('favorites').get()
+                    this.favoriteMovies = favorites.docs.map(doc => doc.data())
+                    console.log('favos',this.favoriteMovies)
                 }
                 catch (error) {
                     this.errorMessage = JSON.stringify(error)

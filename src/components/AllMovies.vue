@@ -14,6 +14,7 @@
             </div>
         </router-link>
 
+
         <div class="region mt-4  md:mt-0 relative">
 
             <select class="border select border-solid cursor-pointer relative"
@@ -230,6 +231,9 @@
             },
             pages() {
                 return this.$store.state.page;
+            },
+            favorites() {
+                return this.$store.state.favouriteMovies
             }
         },
 
