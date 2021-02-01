@@ -12,7 +12,6 @@
         Add your favorite movies to your list.
       </small>
       <div>
-        logged in {{ loggedIn }}
         <span v-if="loggedIn">
            <button @click="handleLogOut">
             Log out
@@ -55,13 +54,13 @@ export default {
   created() {
     auth.onAuthStateChanged(user => {
       if (user) {
+        let uid = auth.currentUser.uid;
+        this.$store.commit("SET_USER_ID", uid);
         // User is signed in.
-        console.log("signed in");
         this.loggedIn = true;
       } else {
         // No user is signed in.
         this.loggedIn = false;
-        console.log("signed out", this.loggedIn);
       }
     })
   },

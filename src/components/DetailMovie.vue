@@ -111,7 +111,7 @@
             },
             async updateFirebase() {
                 try {
-                    await db.doc(`favorites/${this.singleMovie.id}`).set(this.singleMovie)
+                    await db.doc(`${this.$store.state.userId}/${this.singleMovie.id}`).set(this.singleMovie)
                     this.state = 'synced'
                 } catch (error) {
                     this.errorMessage = JSON.stringify(error)
@@ -122,9 +122,9 @@
 
             async deleteFavorite() {
                 try {
-                    const docRef = db.doc(`favorites/${this.singleMovie.id}`);
+                    const docRef = db.doc(`${this.$store.state.userId}/${this.singleMovie.id}`);
                     let data = (await docRef.delete());
-                    console.log('fb', data)
+                   console.log(data)
                 } catch (error) {
                     this.errorMessage = JSON.stringify(error)
                     console.log(this.errorMessage)
@@ -134,7 +134,7 @@
         },
         firestore() {
             return {
-                firebaseData: db.doc(`favorites/${this.singleMovie.id}`)
+                firebaseData: db.doc(`${this.$store.state.userId}/${this.singleMovie.id}`)
             }
         },
         mounted() {
@@ -168,7 +168,7 @@
         },
         created: async function () {
             try {
-                const docRef = db.doc(`favorites/${this.singleMovie.id}`);
+                const docRef = db.doc(`${this.$store.state.userId}/${this.singleMovie.id}`);
                 let data = (await docRef.get()).data();
 
                 let favorites = await db.collection('favorites').get()

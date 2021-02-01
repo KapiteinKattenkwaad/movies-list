@@ -243,7 +243,6 @@
                 .get('https://api.themoviedb.org/3/tv/{tv_id}/watch/providers?api_key=<<api_key>>')
                 .then(response => {
                     this.genres = response.data.genres
-                    console.log('watchpr', this.genres)
                 })
                 .catch(function (error) {
                     console.log(error);

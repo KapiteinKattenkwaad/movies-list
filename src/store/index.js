@@ -11,6 +11,7 @@ export default new Vuex.Store({
         page: 1,
         likedMovie: false,
         favouriteMovies: {},
+        userId: null,
         sortBy: 'popularity.desc',
         sortedBy:
             {
@@ -31,6 +32,9 @@ export default new Vuex.Store({
         },
         SET_SORTING: (state, sorted) => {
             state.sortBy = sorted
+        },
+        SET_USER_ID: (state, payload) => {
+            state.userId = payload
         },
         CHANGE_FAVORITES: (state, singleMovie) => {
 

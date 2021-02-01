@@ -34,7 +34,7 @@ let app = null;
 
 
 auth.onAuthStateChanged(user => {
-  console.log("user", user);
+  console.log(user)
   if (!app) {
     app = new Vue({
       router,
