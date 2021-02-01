@@ -2,12 +2,11 @@
     <div class="detail-country">
         <div class="detail-country-wrapper max-w-5xl mx-auto px-1">
             <router-link :to="{ name: 'Home'}">
-                <div class="back-button flex content-center shadow-lg rounded border-solid
-                            px-6 py-4 mt-8 flex mx-auto md:mx-0 w-24 ">
+                <div class="btn btn--back common--btn">
                     Back
                 </div>
             </router-link>
-          <div class="common">
+          <div class="common--wrapper">
             <p>
               What's the uid of the person?
             </p>
@@ -101,9 +100,17 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
 
-.common {
+.common--wrapper {
+  text-align: center;
+  margin: 3rem;
+  &--btn {
+    margin: 3rem auto;
+
+  }
   &--form {
     input {
+      border-radius: 5px;
+      padding: 6px 12px;
       min-width: 16rem;
       font-size: 14px;
     }

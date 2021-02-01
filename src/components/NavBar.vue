@@ -23,7 +23,7 @@
         </div>
         <div v-if="isOpen" class="pop-out">
           <div class="common">
-            <router-link :to="{name: 'Common' }">
+            <router-link :to="{name: 'CommonFavorites' }">
               Common Favorites
             </router-link>
           </div>
