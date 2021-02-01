@@ -13,7 +13,7 @@
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "debounce": "^1.2.0",
-    "firebase": "^8.2.4",
+    "firebase": "^8.2.5",
     "gsap": "^3.6.0",
     "lodash": "^4.17.20",
     "postcss": "^7.0.35",

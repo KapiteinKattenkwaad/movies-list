@@ -4,14 +4,19 @@ import VueRouter from 'vue-router'
 import DetailMovie from '../components/DetailMovie'
 import FavoriteMovies from '../components/FavoriteMovies'
 import Home from '../views/Home'
+import Login from '../views/Login'
+import Register from '../views/Register'
+import 'firebase/auth';
+import {auth} from './../firestore/firebase'
 
 Vue.use(VueRouter)
 
 const routes = [
     {
-        path: '/',
+        path: '/movies',
         name: 'Home',
-        component: Home
+        component: Home,
+        meta: { requiresAuth: true }
     },
     {
       path: '/movie/:id',
@@ -23,6 +28,16 @@ const routes = [
       name: 'FavoriteMovies',
       component: FavoriteMovies,
     },
+    {
+      path: '/',
+      name: 'Login',
+      component: Login,
+    },
+    {
+      path: '/register',
+      name: 'Register',
+      component: Register,
+    },
 
 ]
 
@@ -31,5 +46,16 @@ const router = new VueRouter({
     base: process.env.BASE_URL,
     routes
 })
+
+router.beforeEach((to, from, next) => {
+    const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+    const isAuthenticated = auth.currentUser;
+    console.log("isauthenticated", isAuthenticated);
+    if (requiresAuth && !isAuthenticated) {
+        next("/login");
+    } else {
+        next();
+    }
+});
 
 export default router

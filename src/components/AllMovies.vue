@@ -240,9 +240,10 @@
         mounted() {
             this.$store.dispatch("fetchMovies");
             axios
-                .get('https://api.themoviedb.org/3/genre/movie/list?api_key=e08cb297a367a56d0964018be877415c&language=en-US')
+                .get('https://api.themoviedb.org/3/tv/{tv_id}/watch/providers?api_key=<<api_key>>')
                 .then(response => {
                     this.genres = response.data.genres
+                    console.log('watchpr', this.genres)
                 })
                 .catch(function (error) {
                     console.log(error);

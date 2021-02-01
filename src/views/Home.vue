@@ -1,13 +1,11 @@
 <template>
   <div class="home">
-    <Navbar />
   <AllMovies />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import Navbar from "../components/NavBar";
 import { mapGetters } from "vuex";
 import AllMovies from "../components/AllMovies";
 
@@ -15,7 +13,6 @@ export default {
   name: 'Home',
   components: {
     AllMovies,
-      Navbar,
 
   },
   beforeMount() {

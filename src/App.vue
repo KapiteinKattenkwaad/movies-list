@@ -1,13 +1,16 @@
 <template>
   <div id="app"
        :class="this.$store.state.theme" >
+    <Navbar />
     <router-view/>
+
   </div>
 </template>
 
 <script>
+  import Navbar from "@/components/NavBar";
   export default {
-
+    components: {Navbar}
   }
 </script>
 

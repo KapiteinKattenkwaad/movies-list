@@ -131,7 +131,6 @@
                 function isFavorite(movie) {
                     return movie.id === singleM;
                 }
-                console.log('fav', this.favoriteMovies.find(isFavorite));
 
                 if (this.favoriteMovies.find(isFavorite)) {
                     this.likedMovie = true
