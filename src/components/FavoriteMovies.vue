@@ -7,8 +7,12 @@
                     Back
                 </div>
             </router-link>
-            state: {{ state }}
-            <div class="countries-list flex flex-wrap justify-center md:justify-between">
+          <div v-if="state !== 'synced' ">
+            <p>
+              Loading...
+            </p>
+          </div>
+            <div v-else class="countries-list flex flex-wrap justify-center md:justify-between">
                 <div class="movie__card" v-for="fav in favoriteMovies" :key="fav.index">
                     {{ fav.genre_ids }}
                     <div v-if="fav.title !== '' ">
@@ -58,7 +62,7 @@
             },
             async updateFirebase() {
                 try {
-                    await db.doc(`favorites/${this.singleMovie.id}`).set(this.singleMovie)
+                    await db.doc(`${this.$store.state.userId}/${this.singleMovie.id}`).set(this.singleMovie)
                     this.state = 'synced'
                 }
                 catch (error) {
@@ -69,9 +73,9 @@
             },
             async getFavorite() {
                 try {
-                    let favorites = await db.collection('favorites').get()
+                    let favorites = await db.collection(`${this.$store.state.userId}`).get()
                     this.favoriteMovies = favorites.docs.map(doc => doc.data())
-                    console.log('favos',this.favoriteMovies)
+
                 }
                 catch (error) {
                     this.errorMessage = JSON.stringify(error)
@@ -81,9 +85,9 @@
             },
             async deleteFavorite() {
                 try {
-                    const docRef = db.doc(`favorites/${this.singleMovie.id}`);
+                    const docRef = db.doc(`${this.$store.state.userId}/${this.singleMovie.id}`);
                     let data = (await docRef.delete());
-                    console.log('fb', data)
+                    console.log(data)
                 }
                 catch (error) {
                     this.errorMessage = JSON.stringify(error)
@@ -94,11 +98,11 @@
         },
         firestore() {
             return {
-                firebaseData: db.doc(`favorites/jeanneke`)
+                firebaseData: db.doc(`${this.$store.state.userId}/${this.singleMovie.id}`)
             }
         },
         created: async function () {
-            const docRef = db.doc(`favorites/jeanneke`);
+            const docRef = db.doc(`${this.$store.state.userId}/${this.singleMovie.id}`);
 
             let data = (await docRef.get()).data();
 

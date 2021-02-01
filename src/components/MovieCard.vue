@@ -114,7 +114,7 @@
             try {
 
 
-                let favorites = await db.collection('favorites').get()
+                let favorites = await db.collection(`${this.$store.state.userId}`).get()
                 this.favoriteMovies = favorites.docs.map(doc => doc.data())
                 console.log(this.favoriteMovies)
 
@@ -153,7 +153,7 @@
         },
         firestore() {
             return {
-                firebaseData: db.doc(`favorites/${this.movie.id}`)
+                firebaseData: db.doc(`${this.$store.state.userId}/${this.movie.id}`)
             }
         },
     }
