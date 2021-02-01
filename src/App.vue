@@ -16,7 +16,9 @@
 
 <style lang="scss">
 
-
+  #app {
+    min-height: 100vh;
+  }
 
   .btn {
     text-transform: uppercase;

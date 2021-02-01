@@ -22,6 +22,11 @@
           </svg>
         </div>
         <div v-if="isOpen" class="pop-out">
+          <div class="common">
+            <router-link :to="{name: 'Common' }">
+              Common Favorites
+            </router-link>
+          </div>
           <button @click="toggleTheme">
             <div v-if="this.$store.state.theme === 'theme-dark'">
               Light mode
