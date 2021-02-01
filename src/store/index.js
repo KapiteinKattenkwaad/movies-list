@@ -12,6 +12,7 @@ export default new Vuex.Store({
         likedMovie: false,
         favouriteMovies: {},
         userId: null,
+        isLoading: true,
         sortBy: 'popularity.desc',
         sortedBy:
             {
@@ -53,6 +54,7 @@ export default new Vuex.Store({
                 .get(`https://api.themoviedb.org/3/discover/movie?api_key=e08cb297a367a56d0964018be877415c&language=en-BE&sort_by=${state.sortBy}&include_adult=true&include_video=false&page=${state.page}`)
                 .then(response => {
                     commit('SET_MOVIES', response.data.results)
+                    state.isLoading = false
                 })
         },
         toggleTheme({state, commit}) {

@@ -127,7 +127,7 @@
         opacity: 0;
     }
     .fill-red {
-        fill: indianred;
+        fill: var(--red);
     }
 
     .fill-white {
@@ -195,7 +195,7 @@
                 margin: 3rem auto;
             }
             &:hover {
-                background: indianred;
+                background: var(--red);
                 letter-spacing: .7px;
             }
         }

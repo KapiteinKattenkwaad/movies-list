@@ -1,21 +1,23 @@
 <template>
   <div class="register">
-    <h1>
-      Register
-    </h1>
     <div v-if="error" class="error">
       {{ error.message }}
     </div>
-    <form @submit.prevent="handleRegister">
+    <form class="form" @submit.prevent="handleRegister">
       <h3>
         Register
       </h3>
       <input type="email" v-model="email" placeholder="email">
       <input type="password" v-model="password" placeholder="password">
-      <button type="submit">
+      <button class="btn btn--submit" type="submit">
         Register
       </button>
     </form>
+    <div>
+      <p class="form__register">
+        Already have an account? Go to <b><router-link :to="{name: 'Login' }"> Login</router-link> </b>
+      </p>
+    </div>
   </div>
 </template>
 

@@ -3,8 +3,17 @@
 @tailwind utilities;
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;600;800&display=swap');
 
+:root {
+    --red: #ef476f;
+    --yellow: #ffd166;
+    --green: #06d6a0;
+    --lightblue: #118ab2;
+    --darkblue: #073b4c;
+
+}
+
 .theme-dark {
-    background: hsl(209, 23%, 22%);
+    background: var(--darkblue);
     color: white;
     border-color: white;
 }
@@ -20,7 +29,13 @@ html {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    overflow-x: hidden
 }
 body, html {
     @apply font-sans dark:bg-white ;
+}
+
+input {
+
+    color:  hsl(209, 23%, 22%);
 }

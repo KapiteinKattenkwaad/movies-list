@@ -1,17 +1,15 @@
 <template>
-    <div class="detail-country">
-        <Navbar/>
-        <div class="detail-country-wrapper max-w-5xl mx-auto px-1">
+    <div class="">
+        <div class=" max-w-5xl mx-auto px-1">
             <router-link :to="{ name: 'Home'}">
-                <div class="back-button flex content-center shadow-lg rounded border-solid
-                            px-6 py-4 mt-8 flex mx-auto md:mx-0 w-24 ">
+                <div class="btn btn--back w-32 mt-8
+                            ">
                     Back
                 </div>
             </router-link>
-            state: {{ state }}
 
 
-            <div class="movie-detail flex items-center flex-col md:flex-row justify-between mt-16 text-center md:text-left ">
+            <div class="movie-detail flex items-center flex-col md:flex-row justify-between text-center md:text-left ">
 
                 <img class="movie-detail__img" width="500" height="700"
                      :src="`https://image.tmdb.org/t/p/w500/${singleMovie.poster_path}`"
@@ -20,7 +18,6 @@
                     <h1 class="movie-detail__title">
                         {{ singleMovie.title }}
                     </h1>
-                    {{ singleMovie.id }}
                     <h4 class="movie-detail__tagline">
                         {{ singleMovie.tagline }}
                     </h4>
@@ -63,13 +60,10 @@
 
 <script>
     import axios from 'axios'
-    import Navbar from "./NavBar";
     import {db} from './../firestore/firebase'
-
 
     export default {
         name: 'DetailMovie',
-        components: {Navbar},
         props: {},
         data() {
             return {
@@ -204,7 +198,7 @@
     }
 
     .fill-red {
-        fill: indianred;
+        fill: var(--red);
     }
 
     .fill-white {
@@ -219,7 +213,7 @@
 
         &__img {
             max-height: 80vh;
-            margin: 2rem;
+            margin: 2rem 2rem 2rem 0;
             animation: fly-in .8s ease-in;
             @media (max-width: 992px) {
                 max-height: 60vh;
@@ -273,7 +267,7 @@
             }
 
             &:hover {
-                background: indianred;
+                background: var(--red);
                 letter-spacing: .7px;
             }
         }
