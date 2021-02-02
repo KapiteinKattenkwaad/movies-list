@@ -88,26 +88,29 @@
 
 <style lang="scss">
 
-.form{
+.form {
   &--search {
     display: flex;
 
     align-items: center;
+
     input {
       display: inline-block;
       border-radius: 4px;
       padding: 6px 12px;
       border-bottom: 3px solid transparent;
-      background: rgba(255,255,255,.9);
+      background: rgba(255, 255, 255, .9);
       outline: none;
-      @media (min-width: 992px) {
-        margin-right: 2rem;
-      }
+
+      margin-right: 2rem;
+      
+
       &::placeholder {
         text-transform: uppercase;
         font-size: 12px;
         color: #111517;
       }
+
       &:focus {
         border-bottom: 2px solid var(--green);
       }
@@ -408,11 +411,11 @@ export default {
   },
   methods: {
     getAction() {
-     return this.allMovies.map((movie) => {
-       movie.genre_ids.filter((genre) => {
-         if (genre === 14)
-           this.actionMovies = movie
-       })
+      return this.allMovies.map((movie) => {
+        movie.genre_ids.filter((genre) => {
+          if (genre === 14)
+            this.actionMovies = movie
+        })
       })
     },
     getNextPage() {
@@ -435,17 +438,23 @@ export default {
       this.$store.dispatch("fetchMovies");
     },
     handleSearch() {
+      console.log(this.searchMovies)
+      if (this.searchMovies === '') {
+        this.$store.dispatch("fetchMovies");
+      } else {
         axios
             .get(`
-https://api.themoviedb.org/3/search/movie?api_key=e08cb297a367a56d0964018be877415c&language=en-BE&page=1&include_adult=false&query=${this.searchMovies}`)
+https://api.themoviedb.org/3/search/${this.$store.state.tvOrMovie}?api_key=e08cb297a367a56d0964018be877415c&language=en-BE&page=1&include_adult=false&query=${this.searchMovies}`)
             .then(response => {
               console.log('search', response.data)
               this.$store.commit("SET_SEARCH_FILTER", response.data.results);
+
             })
             .catch(function (error) {
               console.log(error)
             })
 
+      }
     }
 
   },
