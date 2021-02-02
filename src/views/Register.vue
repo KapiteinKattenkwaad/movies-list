@@ -7,15 +7,18 @@
       <h3>
         Register
       </h3>
-      <input type="email" v-model="email" placeholder="email">
-      <input type="password" v-model="password" placeholder="password">
+      <input type="text" v-model="fname" placeholder="First name">
+      <input required type="email" v-model="email" placeholder="email">
+      <input required type="password" v-model="password" placeholder="password">
       <button class="btn btn--submit" type="submit">
         Register
       </button>
     </form>
     <div>
       <p class="form__register">
-        Already have an account? Go to <b><router-link :to="{name: 'Login' }"> Login</router-link> </b>
+        Already have an account? Go to <b>
+        <router-link :to="{name: 'Login' }"> Login</router-link>
+      </b>
       </p>
     </div>
   </div>
@@ -30,26 +33,40 @@ import {auth} from './../firestore/firebase'
 
 export default {
   name: 'Register',
-  components: {
-
-  },
+  components: {},
   data() {
     return {
+      fname: '',
       email: '',
       password: '',
       error: '',
     }
   },
   methods: {
-    async handleRegister() {
-      try {
-        const user = auth.createUserWithEmailAndPassword(this.email, this.password)
-        console.log(user)
-        this.$router.replace({name: 'Home'})
-      }
-      catch(error) {
-        console.log(error)
-      }
+    handleRegister() {
+      auth.createUserWithEmailAndPassword(this.email, this.password).then(function(user) {
+        // [END createwithemail]
+        // callSomeFunction(); Optional
+        user.updateProfile({
+          displayName: this.fname
+        }).then(function() {
+          // Update successful.
+        }, function(error) {
+          console.log(error)
+          // An error happened.
+        });
+      }, function(error) {
+        // Handle Errors here.
+        if (error.code === 'auth/weak-password') {
+          alert('The password is too weak.');
+        } else {
+          console.error(error);
+        }
+        // [END_EXCLUDE]
+      });
+
+
+
     }
   },
 

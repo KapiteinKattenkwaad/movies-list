@@ -8,17 +8,23 @@ export default new Vuex.Store({
     state: {
         theme: 'theme-dark',
         movies: [],
+        tvshows: [],
         page: 1,
         likedMovie: false,
         favouriteMovies: {},
         userId: null,
+        tvOrMovie: 'movie',
         isLoading: true,
         sortBy: 'popularity.desc',
         sortedBy:
             {
                 'popularity.desc': 'Popularity',
                 'release_date.desc': 'Release date',
-                'vote_average.desc': 'Voters average'
+                'vote_average.desc': 'Voters average',
+                'now_playing': 'Now Playing',
+                'latest': 'Latest',
+                'top_rated': 'Top rated',
+                'upcoming': 'Upcoming'
             }
     },
     mutations: {
@@ -46,12 +52,20 @@ export default new Vuex.Store({
             }
         },
         SET_MOVIES: (state, movies) => (state.movies = movies),
+        SET_SEARCH_FILTER: (state, movies) => (state.movies = movies),
+        SET_TV_OR_MOVIE: (state) => {
+            if (state.tvOrMovie === 'movie') {
+                state.tvOrMovie = 'tv'
+            } else {
+                state.tvOrMovie = 'movie'
+            }
+        }
     },
     actions: {
 
         fetchMovies({state, commit}) {
             axios
-                .get(`https://api.themoviedb.org/3/discover/movie?api_key=e08cb297a367a56d0964018be877415c&language=en-BE&sort_by=${state.sortBy}&include_adult=true&include_video=false&page=${state.page}`)
+                .get(`https://api.themoviedb.org/3/discover/${state.tvOrMovie}?api_key=e08cb297a367a56d0964018be877415c&language=en-BE&sort_by=${state.sortBy}&include_adult=true&include_video=false&page=${state.page}`)
                 .then(response => {
                     commit('SET_MOVIES', response.data.results)
                     state.isLoading = false

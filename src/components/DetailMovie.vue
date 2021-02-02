@@ -10,13 +10,17 @@
 
 
             <div class="movie-detail flex items-center flex-col md:flex-row justify-between text-center md:text-left ">
-
+              <div >
                 <img class="movie-detail__img" width="500" height="700"
                      :src="`https://image.tmdb.org/t/p/w500/${singleMovie.poster_path}`"
                      :alt="singleMovie.title">
+              </div>
                 <div class="movie-detail__text-wrapper">
-                    <h1 class="movie-detail__title">
+                    <h1 v-if="singleMovie.title" class="movie-detail__title">
                         {{ singleMovie.title }}
+                    </h1>
+                    <h1 v-else-if="singleMovie.name" class="movie-detail__title">
+                        {{ singleMovie.name }}
                     </h1>
                     <h4 class="movie-detail__tagline">
                         {{ singleMovie.tagline }}
@@ -80,8 +84,9 @@
         },
         methods: {
             getSingleMovie() {
-                axios.get(`https://api.themoviedb.org/3/movie/${this.$route.params.name}?api_key=e08cb297a367a56d0964018be877415c&language=en-US/`)
+                axios.get(`https://api.themoviedb.org/3/${this.$store.state.tvOrMovie}/${this.$route.params.name}?api_key=e08cb297a367a56d0964018be877415c&language=en-US/`)
                     .then(response => {
+                      console.log('single movie', response.data)
                         this.singleMovie = response.data
                     }).catch(error => {
                     console.log(error)

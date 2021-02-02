@@ -65,7 +65,10 @@
             async getFavorite() {
                 try {
                     let favorites = await db.collection(`${this.otherPersonId}`).get()
+
                     this.favoriteMovies = favorites.docs.map(doc => doc.data())
+                  console.log(this.favoriteMovies)
+
 
                 }
                 catch (error) {
@@ -85,6 +88,7 @@
             const docRef = db.doc(`${this.$store.state.userId}/${this.singleMovie.id}`);
 
             let data = (await docRef.get()).data();
+
 
             if (!data) {
                 data = { title: '' }
@@ -109,6 +113,7 @@
   }
   &--form {
     input {
+      margin: 1rem 0 0 0;
       border-radius: 5px;
       padding: 6px 12px;
       min-width: 16rem;

@@ -8,7 +8,6 @@ import {firestorePlugin} from "vuefire";
 import './firestore/firebase'
 import 'firebase/auth';
 import {auth} from './firestore/firebase'
-/*import firebase from 'firebase/app'*/
 
 Vue.prototype.$axios = 'axios'
 

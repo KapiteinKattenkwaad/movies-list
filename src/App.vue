@@ -22,7 +22,7 @@
 
   .btn {
     text-transform: uppercase;
-    padding: 12px 14px;
+    padding: 10px 16px;
     text-align: center;
     display: flex;
     align-content: center;
@@ -51,9 +51,15 @@
         margin-right: 12px;
       }
     }
-    &--back {
+    &--search {
       border: 1px solid var(--lightblue);
       background: var(--lightblue)
+    }
+    &--back {
+      border: 1px solid var(--lightblue);
+      background: var(--lightblue);
+      border-radius: 4px;
+      padding: 6px 12px;
     }
     &--submit {
       border: 1px solid var(--green);

@@ -16,8 +16,11 @@
         {{ movie.vote_average }}
       </div>
       <div class="movie__text-wrapper">
-        <h3 class="movie__title">
+        <h3 v-if="movie.title" class="movie__title">
           {{ movie.title }}
+        </h3>
+        <h3 v-else-if="movie.name" class="movie__title">
+          {{ movie.name }}
         </h3>
         <div class="movie__genre">
                     <span v-if="movie.genres">
@@ -103,7 +106,7 @@
 </template>
 
 <script>
-import {db} from './../firestore/firebase'
+import {db} from '@/firestore/firebase'
 
 export default {
   name: 'MovieCard',
@@ -141,11 +144,7 @@ export default {
         return movie.id === singleM;
       }
 
-      if (this.favoriteMovies.find(isFavorite)) {
-        this.likedMovie = true
-      } else {
-        this.likedMovie = false
-      }
+      this.likedMovie = !!this.favoriteMovies.find(isFavorite);
     }, 1500)
   },
   methods: {
